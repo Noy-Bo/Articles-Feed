@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     app:cardElevation="0dp"
-    android:layout_height="335dp"
+    android:layout_height="345dp"
     android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
+    android:layout_marginBottom="60dp"
 
 
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -14,7 +14,7 @@
         android:background="@color/mainBackgroundColor"
         android:id="@+id/website_name"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:gravity="right"
         android:text=" Hello World"
 

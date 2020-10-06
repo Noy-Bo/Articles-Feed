@@ -15,19 +15,16 @@ import java.util.ArrayList;
 
 public class The7EyeDownloader  extends AsyncTask<String,Void,ArrayList<ArticleItem>> {
 
+    private ArrayList<ArticleItem> articles;
 
     public The7EyeDownloader(ArrayList<ArticleItem> articles) {
         this.articles = articles;
     }
 
-    private ArrayList<ArticleItem> articles;
-
 
 
     @Override
     protected ArrayList<ArticleItem> doInBackground(String... strings) {
-
-
 
         //selectors to get articles on webpage.
         String articleSelectorTop = "#main-headlines-wrapper > section > div.cols4-content > article";
