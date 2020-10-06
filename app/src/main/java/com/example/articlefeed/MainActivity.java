@@ -67,9 +67,9 @@ public class MainActivity extends Activity {
                 ArrayList<ArticleItem> the7EyeArticles = new ArrayList<>();
                 new  The7EyeDownloader(the7EyeArticles) {
                     @Override
-                    protected void onPostExecute(ArrayList<ArticleItem> articleList) {
-                        super.onPostExecute(articleList);
-                        websiteList.add(new WebsiteItem("  העין השביעית  ",articleList));
+                    protected void onPostExecute(ArrayList<ArticleItem> articleListReady) {
+                        super.onPostExecute(articleListReady);
+                        websiteList.add(new WebsiteItem("  העין השביעית  ",articleListReady));
                         websiteAdapter.notifyDataSetChanged();
                     }
                 }.execute("https://www.the7eye.org.il/");
@@ -77,9 +77,9 @@ public class MainActivity extends Activity {
                 ArrayList<ArticleItem> davidsonArticles= new ArrayList<>();
                 new  DavidsonDownloader(davidsonArticles) {
                     @Override
-                    protected void onPostExecute(ArrayList<ArticleItem> articleList) {
-                        super.onPostExecute(articleList);
-                        websiteList.add(new WebsiteItem("  מכון דוידסון  ",articleList));
+                    protected void onPostExecute(ArrayList<ArticleItem> articleListReady) {
+                        super.onPostExecute(articleListReady);
+                        websiteList.add(new WebsiteItem("  מכון דוידסון  ",articleListReady));
                         websiteAdapter.notifyDataSetChanged();
                     }
                 }.execute("https://davidson.weizmann.ac.il/");
@@ -87,9 +87,9 @@ public class MainActivity extends Activity {
                 ArrayList<ArticleItem> hayadaanArticles= new ArrayList<>();
                 new  HayadaanDownloader(hayadaanArticles)  {
                     @Override
-                    protected void onPostExecute(ArrayList<ArticleItem> articleList) {
-                        super.onPostExecute(articleList);
-                        websiteList.add(new WebsiteItem("  הידען  ",articleList));
+                    protected void onPostExecute(ArrayList<ArticleItem> articleListReady) {
+                        super.onPostExecute(articleListReady);
+                        websiteList.add(new WebsiteItem("  הידען  ",articleListReady));
                         websiteAdapter.notifyDataSetChanged();
                     }
                 }.execute("https://www.hayadan.org.il/feed/");

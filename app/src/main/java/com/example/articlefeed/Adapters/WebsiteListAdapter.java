@@ -26,38 +26,39 @@ public class WebsiteListAdapter extends RecyclerView.Adapter<WebsiteListAdapter.
     private ArrayList<WebsiteItem> websiteList ;
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 
-    public static class WebsiteViewHolder extends RecyclerView.ViewHolder {
+            public static class WebsiteViewHolder extends RecyclerView.ViewHolder {
 
 
-        public TextView websiteName;
-        public RecyclerView articleRecyclerView;
+                public TextView websiteName;
+                public RecyclerView articleRecyclerView;
 
 
-        public WebsiteViewHolder(@NonNull View itemView) {
-            super(itemView);
-            websiteName = itemView.findViewById(R.id.website_name);
-            articleRecyclerView = itemView.findViewById(R.id.article_recycler_view);
+                public WebsiteViewHolder(@NonNull View itemView) {
+                    super(itemView);
 
+                    websiteName = itemView.findViewById(R.id.website_name);
+                    articleRecyclerView = itemView.findViewById(R.id.article_recycler_view);
 
-
-        }
-    }
+                }
+            }
 
     public WebsiteListAdapter(ArrayList<WebsiteItem> websiteList,Context context)
     {
         this.context = context;
        this.websiteList = websiteList;
     }
+
     @NonNull
     @Override
     public WebsiteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.website_item,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.website_item,parent,false);
         WebsiteViewHolder websiteViewHolder = new WebsiteViewHolder(view);
         return websiteViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull WebsiteViewHolder holder, int position) {
+
         // Create an instance of the current WebsiteItem
         // class for the given position
         WebsiteItem currentItem = websiteList.get(position);
@@ -71,7 +72,7 @@ public class WebsiteListAdapter extends RecyclerView.Adapter<WebsiteListAdapter.
         articleLayoutManager.setInitialPrefetchItemCount(currentItem.getArticleList().size());
 
         //Create sub item view adapter
-        ArticleListAdapter articleListAdapter = new ArticleListAdapter(currentItem.getArticleList(),this);
+        ArticleListAdapter articleListAdapter = new ArticleListAdapter(websiteList.get(position).getArticleList(),this);
 
         holder.articleRecyclerView.setLayoutManager(articleLayoutManager);
         holder.articleRecyclerView.setAdapter(articleListAdapter);
