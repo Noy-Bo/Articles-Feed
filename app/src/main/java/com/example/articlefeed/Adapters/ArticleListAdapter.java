@@ -63,7 +63,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter <ArticleListAdapter
             void onArticleClick(int position,ArticleItem articleItem);
         }
     }
-
+    
 
 
 
