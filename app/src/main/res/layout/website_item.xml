@@ -19,7 +19,7 @@
         android:text=" Hello World"
 
         android:textSize="20dp"
-        android:textColor="@color/mainTitleTextColor"
+        android:textColor="@color/black"
         android:textStyle="bold|italic"
 
 

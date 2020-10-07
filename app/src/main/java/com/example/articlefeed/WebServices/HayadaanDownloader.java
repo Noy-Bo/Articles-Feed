@@ -1,10 +1,9 @@
 package com.example.articlefeed.WebServices;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.articlefeed.Entities.ArticleItem;
-import com.example.articlefeed.MainActivity;
+import com.example.articlefeed.Utilities.DateParser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,7 +12,6 @@ import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class HayadaanDownloader extends AsyncTask<String,Void, ArrayList<ArticleItem>> {
@@ -71,7 +69,15 @@ public class HayadaanDownloader extends AsyncTask<String,Void, ArrayList<Article
                 linkUrl = rawLinkURL.substring(0,cutUpToThisNumber);
 
                 articleURLS.add(linkUrl); // we have list of URLS now.
-                date = e.select("pubDate").text();
+
+                String rawDate = e.select("pubDate").text();
+                date = "";
+                date += rawDate.substring(5,7);
+                date += " ";
+                date += DateParser.EngMonthToHebrew(rawDate.substring(8,11));
+                date = date.replace("0","");
+
+
                 body = e.select("description").text();
                 title = e.select("title").text();
                 articles.add(new ArticleItem(title,body,date,"https://i.ibb.co/T2NnHsW/clipart362208.png",linkUrl));

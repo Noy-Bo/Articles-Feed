@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.articlefeed.Entities.ArticleItem;
+import com.example.articlefeed.Utilities.DateParser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -46,7 +47,15 @@ public class The7EyeDownloader  extends AsyncTask<String,Void,ArrayList<ArticleI
             {
                 title = e.select("div.item-body.has-image > header > hgroup > h1 > a").text();
                 body = e.select("div.item-body.has-image > header > hgroup > h2 > a").text();
-                date = e.select("div.item-body.has-image > div.under-headline > span.date").text();
+
+                String rawDate = e.select("div.item-body.has-image > div.under-headline > span.date").text();
+                date = "";
+                date += rawDate.substring(0,2);
+                date += " ";
+                date += DateParser.NumberMonthToHebrew(rawDate.substring(3,5));
+                date = date.replace("0","");
+                Log.d("date",rawDate.substring(3,5));
+
                 imageURL = e.select("div.item-media > a > img").attr("src");
                 linkURL = e.select(" div.item-media > a").attr("href");
 
@@ -60,7 +69,15 @@ public class The7EyeDownloader  extends AsyncTask<String,Void,ArrayList<ArticleI
             {
                 title = e.select("div.item-body.has-image > header > hgroup > h1 > a").text();
                 body = e.select("div.item-body.has-image > header > hgroup > h2 > a").text();
-                date = e.select("div.item-body.has-image > div.under-headline > span.date").text();
+
+                String rawDate = e.select("div.item-body.has-image > div.under-headline > span.date").text();
+                date = "";
+                date += rawDate.substring(0,2);
+                date += " ";
+                date += DateParser.NumberMonthToHebrew(rawDate.substring(3,5));
+                date = date.replace("0","");
+                Log.d("date",rawDate.substring(3,5));
+
                 imageURL = e.select("div.item-media > a > img").attr("src");
                 linkURL = e.select(" div.item-media > a").attr("href");
 

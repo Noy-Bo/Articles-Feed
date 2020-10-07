@@ -41,7 +41,10 @@ public class FriendsOfGeorgeDownloader extends AsyncTask<String,Void, ArrayList<
             {
                 title = e.select("h1 > a").text();
                 body = e.select("div.entry > p").eq(0).text();
+
                 date = e.select("div.postmeta > span.post-calendar").text();
+                date = date.substring(0,date.length()-4); // removing year
+
                 linkURL = e.select(" h1 > a").attr("href");
 
 

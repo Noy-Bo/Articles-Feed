@@ -65,8 +65,11 @@ public class DavidsonDownloader extends AsyncTask<String,Void,ArrayList<ArticleI
                 imageURL = e.select("a").select("div.imgBg").attr("data-field-square-picture");
                 linkURL = e.select("a").attr("href");
 
-                articles.add(new ArticleItem(title,body,date,imageURL,linkURL));
-                Log.d("haya","DAVIDSON FINISHED ITEM");
+                if (!title.equals("מה קורה?") ) // weird davidson feed that needs to be removed
+                {
+                    articles.add(new ArticleItem(title, body, date, imageURL, linkURL));
+                }
+
             }
 
         }

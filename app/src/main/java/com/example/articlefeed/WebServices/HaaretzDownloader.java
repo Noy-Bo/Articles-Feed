@@ -2,9 +2,9 @@ package com.example.articlefeed.WebServices;
 
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.articlefeed.Entities.ArticleItem;
+import com.example.articlefeed.Utilities.DateParser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -50,7 +50,15 @@ public class HaaretzDownloader extends AsyncTask<String,Void, ArrayList<ArticleI
 
                 title = e.select("title").text();
                 body = e.select("description").text();
-                date = e.select("pubDate").text();
+
+                String rawDate = e.select("pubDate").text();
+                date = "";
+                int firstSpace = rawDate.indexOf(" ",0);
+                int secondSpace = rawDate.indexOf(" ",firstSpace+1);
+                date += rawDate.substring(firstSpace,secondSpace);
+                date += " ";
+                date += DateParser.EngMonthToHebrew(rawDate.substring(secondSpace+1,secondSpace+4));
+
                 linkUrl = e.select("link").text();
                 imageURL = e.select("enclosure").attr("url");
 

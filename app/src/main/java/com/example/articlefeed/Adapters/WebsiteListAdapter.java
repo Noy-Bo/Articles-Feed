@@ -38,6 +38,7 @@ public class WebsiteListAdapter extends RecyclerView.Adapter<WebsiteListAdapter.
 
                     websiteName = itemView.findViewById(R.id.website_name);
                     articleRecyclerView = itemView.findViewById(R.id.article_recycler_view);
+                    articleRecyclerView.setHasFixedSize(true);
 
                 }
             }

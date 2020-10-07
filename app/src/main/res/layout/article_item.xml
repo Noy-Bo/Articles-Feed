@@ -23,9 +23,9 @@
             android:layout_width="110dp"
             android:layout_height="97dp"
             android:layout_marginStart="18dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:background="@color/articleBackgroundColor"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="7dp"
             app:layout_constraintBottom_toTopOf="@+id/article_body"
             app:layout_constraintCircleRadius="30dp"
             app:layout_constraintHeight_percent="0.4"
@@ -49,19 +49,19 @@
         <TextView
             android:id="@+id/article_title"
 
-            android:layout_width="185dp"
-            android:layout_height="114dp"
+            android:layout_width="182dp"
+            android:layout_height="119dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="15dp"
             android:gravity="right"
             android:text="כותרת ריקה"
-            android:textColor="@color/mainBodyTextColor"
+            android:textColor="@color/blueSetDarkest"
             android:textSize="22dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/article_body"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.4"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintStart_toEndOf="@+id/article_image_card"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
@@ -71,7 +71,7 @@
             android:id="@+id/article_body"
             android:layout_width="318dp"
             android:layout_height="107dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="12dp"
 
             android:gravity="right"
             android:text="גוף ריק"
@@ -86,19 +86,40 @@
         <TextView
 
             android:id="@+id/article_date"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="151dp"
+            android:layout_height="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="2dp"
             android:gravity="right"
             android:text="תאריך ריק"
             android:textColor="@color/mainBodyTextColor"
-            android:textSize="7dp"
+            android:textSize="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/date_icon"
             app:layout_constraintHeight_percent="0.06"
-            app:layout_constraintHorizontal_bias="0.905"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_percent="0.55" />
+
+        <ImageView
+            android:id="@+id/date_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="3dp"
+            app:layout_constraintBottom_toBottomOf="@+id/article_date"
+            app:layout_constraintEnd_toEndOf="@+id/article_body"
+            app:srcCompat="@drawable/date_small_icon_color_set_blue" />
+
+        <ImageView
+            android:id="@+id/share_article_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/article_date"
+            app:layout_constraintHorizontal_bias="0.082"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/share_icon_color_set_blue" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

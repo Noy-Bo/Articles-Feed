@@ -1,9 +1,9 @@
 package com.example.articlefeed.WebServices;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.articlefeed.Entities.ArticleItem;
+import com.example.articlefeed.Utilities.DateParser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -55,7 +55,9 @@ public class MekomitDownloader extends AsyncTask<String,Void, ArrayList<ArticleI
                 int bodyUrlEndAt = rawBody.indexOf("</p>",0);
                 body = rawBody.substring(0,bodyUrlEndAt);
 
-                date = e.select("pubDate").text();
+                String rawDate = e.select("pubDate").text();
+                date = DateParser.FullDateObjectStringToHebrewDate(rawDate);
+
                 linkUrl = e.select("link").text();
 
                  String rawImageUrl= e.select("content|encoded").text();

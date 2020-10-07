@@ -40,30 +40,14 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-      /*  ArrayList<ArticleItem> articleList = new ArrayList<>();
-       articleList.add(new ArticleItem( "כתבה מספר 1", "בלהבלהבלהבלהבלהבלה", null,null,null));
-       articleList.add(new ArticleItem( "כתבה מספר 2", "בלהבלהבלהבלהבלהבלה", null,null,null));
-       articleList.add(new ArticleItem( "כתבה מספר 3", "בלהבלהבלהבלהבלהבלה", null,null,null));
-       articleList.add(new ArticleItem( "כתבה מספר 4", "בלהבלהבלהבלהבלהבלה", null,null,null));
-       articleList.add(new ArticleItem( "כתבה מספר 5", "בלהבלהבלהבלהבלהבלה", null,null,null));
-       articleList.add(new ArticleItem( "כתבה מספר 6", "בלהבלהבלהבלהבלהבלה", null,null,null));
-       articleList.add(new ArticleItem(  "כתבה מספר 7", "בלהבלהבלהבלהבלהבלה", null,null,null));*/
 
         websiteList = new ArrayList<>();
-       /* websiteList.add(new WebsiteItem("  אתר מספר 1  ",articleList));
-        websiteList.add(new WebsiteItem("  אתר מספר 2  ",articleList));
-        websiteList.add(new WebsiteItem("  אתר מספר 3  ",articleList));
-        websiteList.add(new WebsiteItem("  אתר מספר 4  ",articleList));
-        websiteList.add(new WebsiteItem("  אתר מספר 5  ",articleList));
-        websiteList.add(new WebsiteItem("  אתר מספר 6  ",articleList));
-        websiteList.add(new WebsiteItem("  אתר מספר 7  ",articleList));
-        websiteList.add(new WebsiteItem("  אתר מספר 8  ",articleList));
-        websiteList.add(new WebsiteItem("  אתר מספר 9  ",articleList));*/
+
 
 
         websiteRecyclerView = findViewById(R.id.website_recycler_view);
         websiteRecyclerView.addItemDecoration(new DividerItemDecoration(this,0));
-        //websiteRecyclerView.setHasFixedSize(true);
+        websiteRecyclerView.setHasFixedSize(true);
         websiteLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         websiteAdapter = new WebsiteListAdapter(websiteList,this);
 
@@ -71,75 +55,88 @@ public class MainActivity extends AppCompatActivity {
         websiteRecyclerView.setAdapter(websiteAdapter);
 
 
-
+        ArrayList<ArticleItem> mekomitArticles = new ArrayList<>();
+        ArrayList<ArticleItem> hamakomArticles = new ArrayList<>();
+        ArrayList<ArticleItem> haaretzArticles = new ArrayList<>();
+        ArrayList<ArticleItem> the7EyeArticles = new ArrayList<>();
+        ArrayList<ArticleItem> davidsonArticles= new ArrayList<>();
         ArrayList<ArticleItem> hayadaanArticles= new ArrayList<>();
+        ArrayList<ArticleItem> friendsOfGeorgeDownloaderArticles = new ArrayList<>();
+        websiteList.add(new WebsiteItem("    הידען  ",hayadaanArticles));
+        websiteList.add(new WebsiteItem("    מכון דוידסון  ",davidsonArticles));
+        websiteList.add(new WebsiteItem("    העין השביעית  ",the7EyeArticles));
+        websiteList.add(new WebsiteItem("    הארץ  ",haaretzArticles));
+        websiteList.add(new WebsiteItem("    המקום הכי חם בגיהנום  ",hamakomArticles));
+        websiteList.add(new WebsiteItem("    שיחה מקומית  ",mekomitArticles));
+        websiteList.add(new WebsiteItem("    החברים של ג'ורג'  ",friendsOfGeorgeDownloaderArticles));
+        websiteAdapter.notifyDataSetChanged();
+
         new  HayadaanDownloader(hayadaanArticles)  {
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleList) {
                 super.onPostExecute(articleList);
-                websiteList.add(new WebsiteItem("    הידען  ",articleList));
+                hayadaanArticles.addAll(articleList);
                 websiteAdapter.notifyDataSetChanged();
             }
         }.execute("https://www.hayadan.org.il/feed/");
 
-        ArrayList<ArticleItem> davidsonArticles= new ArrayList<>();
+
         new  DavidsonDownloader(davidsonArticles) {
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleList) {
                 super.onPostExecute(articleList);
-                websiteList.add(new WebsiteItem("    מכון דוידסון  ",articleList));
+                davidsonArticles.addAll(articleList);
                 websiteAdapter.notifyDataSetChanged();
             }
         }.execute("https://davidson.weizmann.ac.il/");
 
-        ArrayList<ArticleItem> the7EyeArticles = new ArrayList<>();
         new  The7EyeDownloader(the7EyeArticles) {
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleList) {
                 super.onPostExecute(articleList);
-                websiteList.add(new WebsiteItem("    העין השביעית  ",articleList));
+                the7EyeArticles.addAll(articleList);
                 websiteAdapter.notifyDataSetChanged();
             }
         }.execute("https://www.the7eye.org.il/");
 
-        ArrayList<ArticleItem> haaretzArticles = new ArrayList<>();
+
         new HaaretzDownloader(haaretzArticles){
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
                 super.onPostExecute(articleItems);
-                websiteList.add(new WebsiteItem("    הארץ  ",articleItems));
+                haaretzArticles.addAll(articleItems);
                 websiteAdapter.notifyDataSetChanged();
             }
         }.execute("https://www.haaretz.co.il/cmlink/1.1617539");
 
-        ArrayList<ArticleItem> hamakomArticles = new ArrayList<>();
+
         new HaMakomDownloader(hamakomArticles){
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
                 super.onPostExecute(articleItems);
-                websiteList.add(new WebsiteItem("    המקום הכי חם בגיהנום  ",articleItems));
+                hamakomArticles.addAll(articleItems);
                 websiteAdapter.notifyDataSetChanged();
             }
         }.execute("https://www.ha-makom.co.il/feed/");
 
 
-        ArrayList<ArticleItem> mekomitArticles = new ArrayList<>();
+
         new MekomitDownloader(mekomitArticles){
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
                 super.onPostExecute(articleItems);
-                websiteList.add(new WebsiteItem("    שיחה מקומית  ",articleItems));
+                mekomitArticles.addAll(articleItems);
                 websiteAdapter.notifyDataSetChanged();
             }
         }.execute("https://www.mekomit.co.il/feed/");
 
 
-        ArrayList<ArticleItem> friendsOfGeorgeDownloaderArticles = new ArrayList<>();
+
         new FriendsOfGeorgeDownloader(){
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
                 super.onPostExecute(articleItems);
-                websiteList.add(new WebsiteItem("    החברים של ג'ורג'  ",articleItems));
+                friendsOfGeorgeDownloaderArticles.addAll(articleItems);
                 websiteAdapter.notifyDataSetChanged();
             }
         }.execute("https://www.hahem.co.il/friendsofgeorge/");
