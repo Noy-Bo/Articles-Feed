@@ -12,6 +12,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
         android:background="@color/mainBackgroundColor"
+
+
+
         android:id="@+id/website_name"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -20,7 +23,7 @@
 
         android:textSize="20dp"
         android:textColor="@color/black"
-        android:textStyle="bold|italic"
+        android:typeface="sans"
 
 
         />

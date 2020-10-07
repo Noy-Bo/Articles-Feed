@@ -27,20 +27,6 @@ public class DavidsonDownloader extends AsyncTask<String,Void,ArrayList<ArticleI
     private ArrayList<ArticleItem> articles;
 
 
-    /*String titleSelector;
-    String bodySelector;
-    String dateSelector;
-    String imageUrlSelector;
-
-    public TextDownloader(String titleSelector, String bodySelector, String dateSelector, String imageUrlSelector, String linkURLSelector) {
-        this.titleSelector = titleSelector;
-        this.bodySelector = bodySelector;
-        this.dateSelector = dateSelector;
-        this.imageUrlSelector = imageUrlSelector;
-        this.linkURLSelector = linkURLSelector;
-    }*/
-
-    String linkURLSelector;
     @Override
     protected ArrayList<ArticleItem> doInBackground(String... strings)  {
 

@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<!--    <color name="colorPrimary">#6200EE</color>-->
+<!--    <color name="colorPrimaryDark">#3700B3</color>-->
+<!--    <color name="colorAccent">#03DAC5</color>-->
+<!--    <color name="mainBackgroundColor">#b0bec5</color>-->
+<!--    <color name="articleBackgroundColor">#eceff1</color>-->
+<!--    <color name="toolbarMainColor">#607d8b</color>-->
+<!--    <color name="mainTitleTextColor">#373739</color>-->
+<!--    <color name="mainBodyTextColor">#434343</color>-->
+<!--    <color name="mainWhiteColor">#FFFFFF</color>-->
+<!--    <color name="blueSetDarkest">#263238</color>-->
+<!--    <color name="black">#000000</color>-->
+
+
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-    <color name="mainBackgroundColor">#b0bec5</color>
-    <color name="articleBackgroundColor">#eceff1</color>
-    <color name="toolbarMainColor">#607d8b</color>
-    <color name="mainTitleTextColor">#373739</color>
-    <color name="mainBodyTextColor">#434343</color>
-    <color name="mainWhiteColor">#FFFFFF</color>
-    <color name="blueSetDarkest">#263238</color>
+
+    <color name="mainBackgroundColor">#EACEB4</color>
+    <color name="articleBackgroundColor">#f2e9d0</color>
+    <color name="toolbarMainColor">#bb5a5a</color>
+
+    <color name="mainTitleTextColor">#000000</color>
+    <color name="mainBodyTextColor">#191919</color>
+    <color name="mainWhiteColor">#000000</color>
+    <color name="blueSetDarkest">#000000</color>
     <color name="black">#000000</color>
 
 

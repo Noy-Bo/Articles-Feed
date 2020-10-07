@@ -24,6 +24,7 @@ import static androidx.core.content.ContextCompat.startActivity;
 public class WebsiteListAdapter extends RecyclerView.Adapter<WebsiteListAdapter.WebsiteViewHolder> implements ArticleListAdapter.ArticleViewHolder.OnArticleListener {
     private Context context;
     private ArrayList<WebsiteItem> websiteList ;
+
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 
             public static class WebsiteViewHolder extends RecyclerView.ViewHolder {
@@ -73,16 +74,14 @@ public class WebsiteListAdapter extends RecyclerView.Adapter<WebsiteListAdapter.
         articleLayoutManager.setInitialPrefetchItemCount(currentItem.getArticleList().size());
 
         //Create sub item view adapter
-        ArticleListAdapter articleListAdapter = new ArticleListAdapter(websiteList.get(position).getArticleList(),this);
-
+        ArticleListAdapter articleListAdapter = new ArticleListAdapter(websiteList.get(position).getArticleList(),this,context);
+        currentItem.setArticleListAdapter(articleListAdapter);
         holder.articleRecyclerView.setLayoutManager(articleLayoutManager);
         holder.articleRecyclerView.setAdapter(articleListAdapter);
         holder.articleRecyclerView.setRecycledViewPool(viewPool);
+        currentItem.getArticleListAdapter().notifyDataSetChanged();
 
         //holder.articleRecyclerView.setNestedScrollingEnabled(false);
-
-
-
 
     }
 
