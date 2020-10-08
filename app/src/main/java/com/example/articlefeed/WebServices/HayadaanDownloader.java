@@ -80,26 +80,9 @@ public class HayadaanDownloader extends AsyncTask<String,Void, ArrayList<Article
 
                 body = e.select("description").text();
                 title = e.select("title").text();
-                articles.add(new ArticleItem(title,body,date,"https://i.ibb.co/T2NnHsW/clipart362208.png",linkUrl));
+                articles.add(new ArticleItem(title,body,date,"https://i.ibb.co/4p6B1NM/rsz-newspaper-976110-640.png",linkUrl));
             }
 
-
-//            for (int i = 0; i < articleURLS.size(); i++)
-//            {
-//                long interval = System.currentTimeMillis();
-//                String articleURL = articleURLS.get(i);
-//                Document articlePage = Jsoup.connect(articleURL).get();
-//                Elements articlePartsElements = articlePage.select("body > div > div > section > div > div > main > div");
-//
-//               title =  articlePartsElements.select("div.elementor-widget-container").eq(1).select("h1").text();
-//               body = articlePartsElements.select("div.elementor-widget-container").eq(3).select("p").select("strong").eq(0).text();
-//               imageURL =  articlePartsElements.select("div.elementor-widget-container").select("figure").select("img").attr("src");
-//               date = articlePartsElements.select("div.elementor-widget-container").eq(2).select("ul").select("li").eq(1).select("a").select("span").text();
-//
-//
-//
-//                Log.d("hayaadan","one article interval "+(System.currentTimeMillis() - interval)/1000 +" seconds");
-//            }
         }
         catch (IOException e)
         {

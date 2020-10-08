@@ -1,4 +1,4 @@
-package com.example.articlefeed;
+package com.example.articlefeed.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -6,11 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,6 +16,7 @@ import android.widget.ImageView;
 import com.example.articlefeed.Adapters.WebsiteListAdapter;
 import com.example.articlefeed.Entities.ArticleItem;
 import com.example.articlefeed.Entities.WebsiteItem;
+import com.example.articlefeed.R;
 import com.example.articlefeed.WebServices.DavidsonDownloader;
 import com.example.articlefeed.WebServices.FriendsOfGeorgeDownloader;
 import com.example.articlefeed.WebServices.HaMakomDownloader;
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<ArticleItem> the7EyeArticles;
     private ArrayList<ArticleItem> davidsonArticles;
     private ArrayList<ArticleItem> hayadaanArticles;
-    ArrayList<ArticleItem> friendsOfGeorgeDownloaderArticles;
+    ArrayList<ArticleItem> friendsOfGeorgeArticles;
 
     private WebsiteItem hayadaanWebsiteList;
     private WebsiteItem davidsonWebsiteList;
@@ -90,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         the7EyeArticles = new ArrayList<>();
         davidsonArticles = new ArrayList<>();
         hayadaanArticles = new ArrayList<>();
-        friendsOfGeorgeDownloaderArticles = new ArrayList<>();
+        friendsOfGeorgeArticles = new ArrayList<>();
 
 
          hayadaanWebsiteList = new WebsiteItem("    הידען  ",hayadaanArticles);
@@ -111,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
          mekomitWebsiteList = new WebsiteItem("    שיחה מקומית  ",mekomitArticles);
         websiteList.add(mekomitWebsiteList);
 
-         friendsOfGeorgeWebsiteList = new WebsiteItem("    החברים של ג'ורג'  ",friendsOfGeorgeDownloaderArticles);
+         friendsOfGeorgeWebsiteList = new WebsiteItem("    החברים של ג'ורג'  ", friendsOfGeorgeArticles);
         websiteList.add(friendsOfGeorgeWebsiteList);
 
         websiteAdapter.notifyDataSetChanged();
@@ -146,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleList) {
                 super.onPostExecute(articleList);
-                hayadaanArticles.addAll(articleList);
                 if (hayadaanWebsiteList.getArticleListAdapter() != null)
                     hayadaanWebsiteList.getArticleListAdapter().notifyDataSetChanged();
 
@@ -160,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleList) {
                 super.onPostExecute(articleList);
-                davidsonArticles.addAll(articleList);
+
                 if (davidsonWebsiteList.getArticleListAdapter() != null)
                     davidsonWebsiteList.getArticleListAdapter().notifyDataSetChanged();
 
@@ -173,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleList) {
                 super.onPostExecute(articleList);
-                the7EyeArticles.addAll(articleList);
+
                 if (the7EyeWebsiteList.getArticleListAdapter() != null)
                     the7EyeWebsiteList.getArticleListAdapter().notifyDataSetChanged();
                 //websiteAdapter.notifyDataSetChanged();
@@ -185,19 +183,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
                 super.onPostExecute(articleItems);
-                haaretzArticles.addAll(articleItems);
+
                 if (haaretzWebsiteList.getArticleListAdapter() != null)
                     haaretzWebsiteList.getArticleListAdapter().notifyDataSetChanged();
                 //websiteAdapter.notifyDataSetChanged();
             }
-        }.execute("https://www.haaretz.co.il/cmlink/1.1617539");
+        }.execute("https://www.haaretz.co.il/cmlink/1.1470869");
 
 
         new HaMakomDownloader(hamakomArticles){
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
                 super.onPostExecute(articleItems);
-                hamakomArticles.addAll(articleItems);
+
                 if (hamakomWebsiteList.getArticleListAdapter() != null)
                     hamakomWebsiteList.getArticleListAdapter().notifyDataSetChanged();
                 //websiteAdapter.notifyDataSetChanged();
@@ -210,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
                 super.onPostExecute(articleItems);
-                mekomitArticles.addAll(articleItems);
+
                 if (mekomitWebsiteList.getArticleListAdapter() != null)
                     mekomitWebsiteList.getArticleListAdapter().notifyDataSetChanged();
                 //websiteAdapter.notifyDataSetChanged();
@@ -219,11 +217,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        new FriendsOfGeorgeDownloader(){
+        new FriendsOfGeorgeDownloader(friendsOfGeorgeArticles){
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
                 super.onPostExecute(articleItems);
-                friendsOfGeorgeDownloaderArticles.addAll(articleItems);
+
                 if (friendsOfGeorgeWebsiteList.getArticleListAdapter() != null)
                     friendsOfGeorgeWebsiteList.getArticleListAdapter().notifyDataSetChanged();
                 //websiteAdapter.notifyDataSetChanged();

@@ -30,7 +30,7 @@ public class HaaretzDownloader extends AsyncTask<String,Void, ArrayList<ArticleI
 
 
         String title;
-        String body;
+        String body = "";
         String date;
         String imageURL;
         String linkUrl;
@@ -64,10 +64,12 @@ public class HaaretzDownloader extends AsyncTask<String,Void, ArrayList<ArticleI
 
 
 
-                articles.add(new ArticleItem(title,body,date,imageURL,linkUrl));
-
-                if (--numOfArticlesToFetch == 0)
-                    break;
+                //articles.add(new ArticleItem(title,body,date,imageURL,linkUrl));
+                if (body.length()> 5) { // getting rid of empty descriptions(body)
+                    articles.add(0, new ArticleItem(title, body, date, imageURL, linkUrl));
+                    if (--numOfArticlesToFetch == 0)
+                        break;
+                }
             }
 
 

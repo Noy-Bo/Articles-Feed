@@ -17,9 +17,9 @@ public class FriendsOfGeorgeDownloader extends AsyncTask<String,Void, ArrayList<
 
     private ArrayList<ArticleItem> articles = new ArrayList<>();
 
-//    public FriendsOfGeorgeDownloader(ArrayList<ArticleItem> articles) {
-//        this.articles = articles;
-//    }
+    public FriendsOfGeorgeDownloader(ArrayList<ArticleItem> articles) {
+        this.articles = articles;
+    }
 
 
     @Override
@@ -50,7 +50,7 @@ public class FriendsOfGeorgeDownloader extends AsyncTask<String,Void, ArrayList<
 
                 //Log.d("george","title: "+linkURL);
 
-                articles.add(new ArticleItem(title,body,date,"https://i.ibb.co/T2NnHsW/clipart362208.png",linkURL)); // no image :(
+                articles.add(new ArticleItem(title,body,date,"https://i.ibb.co/4p6B1NM/rsz-newspaper-976110-640.png",linkURL)); // no image :(
             }
 
 

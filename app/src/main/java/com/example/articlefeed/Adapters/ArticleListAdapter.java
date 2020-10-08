@@ -3,10 +3,12 @@ package com.example.articlefeed.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.Browser;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,17 +17,13 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.articlefeed.Activities.ArticleWebView;
+import com.example.articlefeed.ArticleWebViewClient;
 import com.example.articlefeed.Entities.ArticleItem;
-import com.example.articlefeed.Entities.WebsiteItem;
-import com.example.articlefeed.MainActivity;
 import com.example.articlefeed.R;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static androidx.core.content.ContextCompat.startActivity;
 
@@ -33,6 +31,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter <ArticleListAdapter
     private  ArrayList<ArticleItem> articleList;
     private ArticleViewHolder.OnArticleListener mOnArticleListener;
     public Context context;
+
 
 
     public ArrayList<ArticleItem> getArticleList()
@@ -48,6 +47,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter <ArticleListAdapter
     }
 
             public static class ArticleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+                public WebView webView;
                 public Context context;
                 public ArrayList<ArticleItem> articleList;
                 OnArticleListener onArticleListener;
@@ -86,8 +86,13 @@ public class ArticleListAdapter extends RecyclerView.Adapter <ArticleListAdapter
                         @Override
                         public void onClick(View v) {
                             Log.d("testing clicks","CARD");
-                            Intent browseArticleIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(articleList.get(getAdapterPosition()).getArticleLinkURL()));
-                            startActivity(context,browseArticleIntent,null);
+//                            Intent browseArticleIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(articleList.get(getAdapterPosition()).getArticleLinkURL()));
+//                            startActivity(context,browseArticleIntent,null);
+                                Intent websiteIntent = new Intent(context,ArticleWebView.class);
+                                websiteIntent.putExtra("url",articleList.get(getAdapterPosition()).getArticleLinkURL());
+                                startActivity(context,websiteIntent,null);
+
+
                         }
                     });
 
@@ -129,7 +134,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter <ArticleListAdapter
 
         if (currentItem.getArticlePictureURL() != null && currentItem.getArticlePictureURL().startsWith("https://"))
             Picasso.get().load(currentItem.getArticlePictureURL()).into(holder.articlePicture);
-
+        else
+            Picasso.get().load("https://i.ibb.co/4p6B1NM/rsz-newspaper-976110-640.png").into(holder.articlePicture);
         holder.articleReleaseDate.setText(currentItem.getArticleReleaseDate());
 
 
