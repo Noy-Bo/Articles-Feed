@@ -12,12 +12,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.articlefeed.Activities.MainActivity;
 import com.example.articlefeed.Entities.ArticleItem;
 import com.example.articlefeed.Entities.WebsiteItem;
 import com.example.articlefeed.R;
@@ -54,7 +56,11 @@ public class WebsiteListAdapter extends RecyclerView.Adapter<WebsiteListAdapter.
                     deleteButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            if (MainActivity.swipeRefreshLayout.isRefreshing() == true) // disabling delete while refreshing.
+                            {
+                                Toast.makeText(context, "לא ניתן למחוק תוך כדי רענון", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                             Animation animFadeOut = AnimationUtils.loadAnimation(context,R.anim.fade_out);
                             animFadeOut.setAnimationListener(new Animation.AnimationListener() {
                                 @Override

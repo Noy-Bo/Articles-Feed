@@ -19,24 +19,26 @@
 
         <ImageButton
             android:id="@+id/delete_button"
-            android:layout_marginBottom="15sp"
             android:layout_width="22sp"
             android:layout_height="22sp"
+
+            android:layout_marginBottom="15sp"
+            android:background="@drawable/garbage_bin_empty_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/website_name"
-            android:layout_marginLeft="@dimen/_30sdp"
-            android:background="@drawable/garbage_bin_empty_icon"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:layout_marginRight="@dimen/_17sdp"
             android:id="@+id/website_name"
-            android:layout_width="350dp"
+            android:layout_width="0dp"
             android:layout_height="45sp"
             android:gravity="right"
             android:text=" Hello World"
-
+            app:layout_constraintWidth_percent="0.83"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:typeface="sans"

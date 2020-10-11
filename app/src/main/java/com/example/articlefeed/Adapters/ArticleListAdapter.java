@@ -1,5 +1,6 @@
 package com.example.articlefeed.Adapters;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -33,11 +34,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter <ArticleListAdapter
 
 
 
-    public ArrayList<ArticleItem> getArticleList()
-    {
-        return articleList;
-    }
-
     public ArticleListAdapter(ArrayList<ArticleItem> articleList, ArticleViewHolder.OnArticleListener onArticleListener,Context context) {
         this.articleList = articleList;
         this.mOnArticleListener = onArticleListener;
@@ -69,33 +65,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter <ArticleListAdapter
                     shareButton = itemView.findViewById(R.id.share_article_button);
                     cardView = itemView.findViewById(R.id.article_card_view);
 
-                    shareButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Log.d("testing clicks","clicked "+ articleList.get(getAdapterPosition()).getArticleTitle());
-                            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                            sharingIntent.setType("text/plain");
-                            String shareBody = articleList.get(getAdapterPosition()).getArticleLinkURL();
-                            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
-                            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                            startActivity(context,Intent.createChooser(sharingIntent, "Share via"),null);
-                        }
-                    });
-                    cardView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Log.d("testing clicks","CARD");
-//                            Intent browseArticleIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(articleList.get(getAdapterPosition()).getArticleLinkURL()));
-//                            startActivity(context,browseArticleIntent,null);
-                                Intent websiteIntent = new Intent(context,ArticleWebView.class);
-                                websiteIntent.putExtra("url",articleList.get(getAdapterPosition()).getArticleLinkURL());
-                                startActivity(context,websiteIntent,null);
-
-
-                        }
-                    });
-
-
                     this.onArticleListener = onArticleListener;
 
 
@@ -121,13 +90,44 @@ public class ArticleListAdapter extends RecyclerView.Adapter <ArticleListAdapter
     public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.article_item,parent,false);
         ArticleListAdapter.ArticleViewHolder articleViewHolder = new ArticleListAdapter.ArticleViewHolder(view,mOnArticleListener,articleList,context);
+
         return articleViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
         ArticleItem currentItem = articleList.get(position);
+        holder.shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = articleList.get(holder.getAdapterPosition()).getArticleLinkURL();
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(context,Intent.createChooser(sharingIntent, "Share via"),null);
+            }
+        });
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent websiteIntent = new Intent(context,ArticleWebView.class);
+                websiteIntent.putExtra("url",articleList.get(holder.getAdapterPosition()).getArticleLinkURL());
+                startActivity(context,websiteIntent,null);
+
+//                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.haaretz.co.il/misc/smartphone-article/.premium-1.9219093"));
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.setPackage("com.android.chrome");
+//                try {
+//                    context.startActivity(intent);
+//                } catch (ActivityNotFoundException ex) {
+//                    // Chrome browser presumably not installed so allow user to choose instead
+//                    intent.setPackage(null);
+//                    context.startActivity(intent);
+//                }
+            }
+        });
         holder.articleTitle.setText(currentItem.getArticleTitle());
         holder.articleBody.setText(currentItem.getArticleBody());
 

@@ -53,10 +53,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private Toolbar mainToolbar;
 
-
-
-    private SwipeRefreshLayout swipeRefreshLayout;
-
+    public static SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

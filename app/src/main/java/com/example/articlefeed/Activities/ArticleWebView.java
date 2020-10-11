@@ -20,8 +20,27 @@ public class ArticleWebView extends AppCompatActivity {
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        //test
+        webView.getSettings().setUserAgentString("");
         Bundle bundle = getIntent().getExtras();
-        loadAnUrl(bundle.getString("url"));
+
+        // checking if its haaretz to change view and url
+        String url = bundle.getString("url");
+        if (url.contains("www.haaretz") && url.contains("/.premium"))
+        {
+            webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+            int cutToheretIndex = url.indexOf(".il/") + 4;
+            int cutFromHereIndex = url.indexOf("/.prem");
+
+            String finalUrl = "";
+            finalUrl += url.substring(0,cutToheretIndex);
+            finalUrl += "misc/smartphone-article";
+            finalUrl += url.substring(cutFromHereIndex);
+            url = finalUrl;
+        }
+
+
+        loadAnUrl(url);
 
 
 

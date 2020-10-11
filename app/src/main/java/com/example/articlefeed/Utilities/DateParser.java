@@ -1,5 +1,7 @@
 package com.example.articlefeed.Utilities;
 
+import android.util.Log;
+
 public class DateParser {
     public static String EngMonthToHebrew(String engMonth)
     {
@@ -42,10 +44,17 @@ public class DateParser {
     {
         String date;
         date = "";
-        date += rawDate.substring(5,7);
+        if (rawDate.substring(5,6).equals("0"))
+        {
+            date += rawDate.substring(6,7);
+        }
+        else
+        {
+            date += rawDate.substring(5,7);
+        }
         date += " ";
         date += DateParser.EngMonthToHebrew(rawDate.substring(8,11));
-        date = date.replace("0","");
+        //date = date.replace("0","");
         return date;
     }
 }
