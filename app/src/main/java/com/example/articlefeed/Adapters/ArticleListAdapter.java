@@ -18,7 +18,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.articlefeed.Activities.ArticleWebView;
-import com.example.articlefeed.ArticleWebViewClient;
 import com.example.articlefeed.Entities.ArticleItem;
 import com.example.articlefeed.R;
 import com.squareup.picasso.Picasso;

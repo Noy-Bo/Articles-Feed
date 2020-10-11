@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="parent_menu"
+        android:icon="@drawable/plus_icon_white"
+        app:showAsAction="always" >
+
+        <menu>
+
+            <item android:id="@+id/hayadaan_menu"
+                android:title="הידען" />
+
+            <item android:id="@+id/davidson_menu"
+                android:title="מכון דוידסון" />
+
+            <item android:id="@+id/the_7_eye_menu"
+                android:title="העין השביעית" />
+
+            <item android:id="@+id/haaretz_menu"
+                android:title="הארץ" />
+
+            <item android:id="@+id/hamakom_menu"
+                android:title="המקום הכי חם בגיהנום" />
+
+            <item android:id="@+id/mekomit_menu"
+                android:title="שיחה מקומית" />
+
+            <item android:id="@+id/friends_of_george_menu"
+                android:title="החברים של ג'ורג'" />
+
+
+        </menu>
+    </item>
+</menu>

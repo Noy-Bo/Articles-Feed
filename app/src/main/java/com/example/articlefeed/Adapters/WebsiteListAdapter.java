@@ -7,9 +7,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,19 +32,53 @@ public class WebsiteListAdapter extends RecyclerView.Adapter<WebsiteListAdapter.
 
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 
-            public static class WebsiteViewHolder extends RecyclerView.ViewHolder {
+            public  class WebsiteViewHolder extends RecyclerView.ViewHolder {
 
-
+                public ArrayList<WebsiteItem> websiteItems;
                 public TextView websiteName;
                 public RecyclerView articleRecyclerView;
+                public ImageButton deleteButton;
+                public Context context;
+                public CardView websiteCard;
 
-
-                public WebsiteViewHolder(@NonNull View itemView) {
+                public WebsiteViewHolder(@NonNull View itemView,Context context, ArrayList<WebsiteItem> websiteItems) {
                     super(itemView);
-
+                    this.context = context;
+                    this.websiteItems = websiteItems;
                     websiteName = itemView.findViewById(R.id.website_name);
                     articleRecyclerView = itemView.findViewById(R.id.article_recycler_view);
                     articleRecyclerView.setHasFixedSize(true);
+
+                    deleteButton = (ImageButton) itemView.findViewById(R.id.delete_button);
+                    websiteCard = (CardView)itemView.findViewById(R.id.website_item_card);
+                    deleteButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            Animation animFadeOut = AnimationUtils.loadAnimation(context,R.anim.fade_out);
+                            animFadeOut.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+                                    websiteItems.remove(getAdapterPosition());
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
+                            websiteCard.startAnimation(animFadeOut);
+
+
+
+
+                        }
+                    });
 
                 }
             }
@@ -54,7 +93,7 @@ public class WebsiteListAdapter extends RecyclerView.Adapter<WebsiteListAdapter.
     @Override
     public WebsiteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.website_item,parent,false);
-        WebsiteViewHolder websiteViewHolder = new WebsiteViewHolder(view);
+        WebsiteViewHolder websiteViewHolder = new WebsiteViewHolder(view,context,websiteList);
         return websiteViewHolder;
     }
 

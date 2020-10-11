@@ -1,0 +1,36 @@
+package com.example.articlefeed.Utilities;
+
+import com.example.articlefeed.R;
+
+public class NameToMenuConverter {
+    public static int StringToMenuItem(String hebName)
+    {
+
+        switch (hebName)
+        {
+            case "הידען":
+                return R.id.hayadaan_menu;
+
+            case "מכון דוידסון":
+                return R.id.davidson_menu;
+
+            case "העין השביעית":
+                return R.id.hayadaan_menu;
+
+            case "הארץ":
+                return R.id.haaretz_menu;
+
+            case "המקום הכי חם בגיהנום":
+                return R.id.hamakom_menu;
+
+            case "שיחה מקומית":
+                return R.id.mekomit_menu;
+
+            case "החברים של ג'ורג'":
+                return R.id.friends_of_george_menu;
+
+        }
+        return 0;
+    }
+
+}

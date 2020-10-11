@@ -1,88 +1,153 @@
 package com.example.articlefeed.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.View;
+import android.view.MenuItem;
 import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.Toast;
+
 
 import com.example.articlefeed.Adapters.WebsiteListAdapter;
 import com.example.articlefeed.Entities.ArticleItem;
 import com.example.articlefeed.Entities.WebsiteItem;
 import com.example.articlefeed.R;
-import com.example.articlefeed.WebServices.DavidsonDownloader;
-import com.example.articlefeed.WebServices.FriendsOfGeorgeDownloader;
-import com.example.articlefeed.WebServices.HaMakomDownloader;
-import com.example.articlefeed.WebServices.HaaretzDownloader;
-import com.example.articlefeed.WebServices.HayadaanDownloader;
-import com.example.articlefeed.WebServices.HayadaanImageDownloader;
-import com.example.articlefeed.WebServices.MekomitDownloader;
-import com.example.articlefeed.WebServices.The7EyeDownloader;
+import com.example.articlefeed.WebServices.DownloadManager.DownloadManager;
+import com.example.articlefeed.WebServices.DownloadManager.OnDataDownloadComplete;
+
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView websiteRecyclerView;
     private RecyclerView.Adapter websiteAdapter;
     private RecyclerView.LayoutManager websiteLayoutManager;
 
-    private RecyclerView articleRecyclerView;
-    private RecyclerView.Adapter articleAdapter;
-    private RecyclerView.LayoutManager articleLayoutManager;
+    DownloadManager downloadManager = new DownloadManager();
     private  ArrayList<WebsiteItem> websiteList;
+    private  ArrayList<WebsiteItem> selectedWebsiteList;
     private ArrayList<ArticleItem> mekomitArticles;
     private ArrayList<ArticleItem> hamakomArticles;
     private ArrayList<ArticleItem> haaretzArticles;
     private ArrayList<ArticleItem> the7EyeArticles;
     private ArrayList<ArticleItem> davidsonArticles;
     private ArrayList<ArticleItem> hayadaanArticles;
-    ArrayList<ArticleItem> friendsOfGeorgeArticles;
+    private ArrayList<ArticleItem> friendsOfGeorgeArticles;
 
-    private WebsiteItem hayadaanWebsiteList;
-    private WebsiteItem davidsonWebsiteList;
-    private WebsiteItem the7EyeWebsiteList;
-    private WebsiteItem haaretzWebsiteList;
-    private WebsiteItem hamakomWebsiteList;
-    private WebsiteItem mekomitWebsiteList;
-    private WebsiteItem friendsOfGeorgeWebsiteList;
+    private WebsiteItem hayadaanWebsiteItem;
+    private WebsiteItem davidsonWebsiteItem;
+    private WebsiteItem the7EyeWebsiteItem;
+    private WebsiteItem haaretzWebsiteItem;
+    private WebsiteItem hamakomWebsiteItem;
+    private WebsiteItem mekomitWebsiteItem;
+    private WebsiteItem friendsOfGeorgeWebsiteItem;
 
-    private ImageButton refreshButtonAsImage;
-    private Animation animation;
-    public  ProgressDialog pd;
+    private Toolbar mainToolbar;
+
+
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
-        pd = new ProgressDialog(this);
-        pd.setMessage("Loading..");
-        pd.show();
+    // ====================================================================
+    // ------------------------- Initializing arrays  ----------------------
+    // ====================================================================
 
-        refreshButtonAsImage = findViewById(R.id.refresh_button);
+    initializeArrays(); // has to be first
 
-        websiteList = new ArrayList<>();
+    // ====================================================================
+    // ------------------------ Toolbar Add Menu --------------------------
+    // ====================================================================
+
+        mainToolbar = (Toolbar) findViewById(R.id.menu_inside_toolbar);
+        mainToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                boolean selected = false;
+                item.collapseActionView();
+                for (WebsiteItem webItem : selectedWebsiteList) {
+                    if (!item.toString().equals("parent_menu")) {
+                        if (webItem.getWebsiteName().equals(item.toString())) {
+                            Toast.makeText(MainActivity.this, "האתר שבחרת כבר נמצא ברשימה", Toast.LENGTH_SHORT).show();
+                            selected = true;
+                        }
+                    }
+                }
+                if ((selected == false)&&(!item.toString().equals("parent_menu"))) {
+                    for (WebsiteItem webItem : websiteList)
+                    {
+                        if (webItem.getWebsiteName().equals(item.toString())){
+                            selectedWebsiteList.add(0,webItem);
+                            downloadManager.selectDownloaderFromName(webItem, new OnDataDownloadComplete() {
+                                @Override
+                                public void DataDownloadCompleted() {
+                                    requestImages();
+                                }
+                            },false);
+                            websiteAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+                return false;
+            }
+        });
+        mainToolbar.inflateMenu(R.menu.add_menu);
+
+
+
+        // ====================================================================
+        // ------------------------- Website Adapters -------------------------
+        // ====================================================================
+
 
         websiteRecyclerView = findViewById(R.id.website_recycler_view);
         websiteRecyclerView.addItemDecoration(new DividerItemDecoration(this,0));
         websiteRecyclerView.setHasFixedSize(true);
         websiteLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        websiteAdapter = new WebsiteListAdapter(websiteList,this);
+        websiteAdapter = new WebsiteListAdapter(selectedWebsiteList,this);
 
         websiteRecyclerView.setLayoutManager(websiteLayoutManager);
         websiteRecyclerView.setAdapter(websiteAdapter);
 
 
+        // ====================================================================
+        // ---------------------------- Alert Dialog  -------------------------
+        // ====================================================================
 
+       CreateAndDisplayInitialDialogAlert();
+
+
+        // ====================================================================
+        // -------------------------- Swipe To Refresh -------------------------
+        // ====================================================================
+
+        // SwipeRefreshLayout
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_to_refresh);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_orange_light,
+        android.R.color.darker_gray);
+
+    }
+
+
+    public void initializeArrays()
+    {
         mekomitArticles = new ArrayList<>();
         hamakomArticles = new ArrayList<>();
         haaretzArticles = new ArrayList<>();
@@ -91,153 +156,103 @@ public class MainActivity extends AppCompatActivity {
         hayadaanArticles = new ArrayList<>();
         friendsOfGeorgeArticles = new ArrayList<>();
 
+        websiteList = new ArrayList<>();
+        selectedWebsiteList = new ArrayList<>();
 
-         hayadaanWebsiteList = new WebsiteItem("    הידען  ",hayadaanArticles);
-        websiteList.add(hayadaanWebsiteList);
+        hayadaanWebsiteItem = new WebsiteItem("הידען",hayadaanArticles);
+        websiteList.add(hayadaanWebsiteItem);
 
-         davidsonWebsiteList = new WebsiteItem("    מכון דוידסון  ",davidsonArticles);
-        websiteList.add(davidsonWebsiteList);
+        davidsonWebsiteItem = new WebsiteItem("מכון דוידסון",davidsonArticles);
+        websiteList.add(davidsonWebsiteItem);
 
-         the7EyeWebsiteList = new WebsiteItem("    העין השביעית  ",the7EyeArticles);
-        websiteList.add(the7EyeWebsiteList);
+        the7EyeWebsiteItem = new WebsiteItem("העין השביעית",the7EyeArticles);
+        websiteList.add(the7EyeWebsiteItem);
 
-         haaretzWebsiteList = new WebsiteItem("    הארץ  ",haaretzArticles);
-        websiteList.add(haaretzWebsiteList);
+        haaretzWebsiteItem = new WebsiteItem("הארץ",haaretzArticles);
+        websiteList.add(haaretzWebsiteItem);
 
-         hamakomWebsiteList = new WebsiteItem("    המקום הכי חם בגיהנום  ",hamakomArticles);
-        websiteList.add(hamakomWebsiteList);
+        hamakomWebsiteItem = new WebsiteItem("המקום הכי חם בגיהנום",hamakomArticles);
+        websiteList.add(hamakomWebsiteItem);
 
-         mekomitWebsiteList = new WebsiteItem("    שיחה מקומית  ",mekomitArticles);
-        websiteList.add(mekomitWebsiteList);
+        mekomitWebsiteItem = new WebsiteItem("שיחה מקומית",mekomitArticles);
+        websiteList.add(mekomitWebsiteItem);
 
-         friendsOfGeorgeWebsiteList = new WebsiteItem("    החברים של ג'ורג'  ", friendsOfGeorgeArticles);
-        websiteList.add(friendsOfGeorgeWebsiteList);
-
-        websiteAdapter.notifyDataSetChanged();
-
-        RefreshAllData();
-
-
-
-
-
+        friendsOfGeorgeWebsiteItem = new WebsiteItem("החברים של ג'ורג'", friendsOfGeorgeArticles);
+        websiteList.add(friendsOfGeorgeWebsiteItem);
     }
-    public void RefreshAllData(View view)
+
+    public void CreateAndDisplayInitialDialogAlert()
     {
+        String[] stringWebsiteList = {"הידען","מכון דוידסון","העין השביעית","הארץ","המקום הכי חם בגיהנום","שיחה מקומית","החברים של ג'ורג'"};
 
-
-        animation = new RotateAnimation(0.0f, 360.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
-                0.5f);
-        animation.setRepeatCount(-1);
-        animation.setDuration(900);
+        boolean[] checkedItems;
+        ArrayList<Integer> itemsIntegers = new ArrayList<>();
+        checkedItems = new boolean[websiteList.size()];
 
 
 
-        ((ImageView)refreshButtonAsImage).startAnimation(animation);
-        RefreshAllData();
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        mBuilder.setTitle("מאיזה אתרים להציג לך כתבות?");
+        mBuilder.setMultiChoiceItems(stringWebsiteList, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+
+            public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                if (isChecked) {
+                    if (!itemsIntegers.contains(position)) {
+                        itemsIntegers.add(position);
+                    }
+                } else {
+                    for (int i = 0; i < itemsIntegers.size(); i++)
+                        if (itemsIntegers.get(i) == position) {
+                            //
+                            itemsIntegers.remove(i);
+                            break;
+                        }
+                }
+
+            }
+        });
+        mBuilder.setCancelable(false);
+        mBuilder.setPositiveButton("בחרתי", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                for (int i = 0; i < itemsIntegers.size(); i++) {
+                    selectedWebsiteList.add(websiteList.get(itemsIntegers.get(i)));
+
+                }
+                websiteAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(true);
+                onRefresh();
+            }
+        });
+
+        // default selected all
+        AlertDialog mDialog = mBuilder.create();
+        for(int i=0; i< checkedItems.length; i++) {
+            itemsIntegers.add(i);
+            checkedItems[i] = true;
+            mDialog.getListView().setItemChecked(i, true);
+        }
+
+        mDialog.show();
 
     }
 
-    public void RefreshAllData()
-        {
-        new  HayadaanDownloader(hayadaanArticles)  {
+    @Override
+    public void onRefresh() {
+        downloadManager.downloadSelectedData(selectedWebsiteList, new OnDataDownloadComplete() {
             @Override
-            protected void onPostExecute(ArrayList<ArticleItem> articleList) {
-                super.onPostExecute(articleList);
-                if (hayadaanWebsiteList.getArticleListAdapter() != null)
-                    hayadaanWebsiteList.getArticleListAdapter().notifyDataSetChanged();
-
-                pd.dismiss();
-                //websiteAdapter.notifyDataSetChanged();
+            public void DataDownloadCompleted() {
+                requestImages();
+                swipeRefreshLayout.setRefreshing(false);
             }
-        }.execute("https://www.hayadan.org.il/feed/");
+        });
 
-
-        new  DavidsonDownloader(davidsonArticles) {
-            @Override
-            protected void onPostExecute(ArrayList<ArticleItem> articleList) {
-                super.onPostExecute(articleList);
-
-                if (davidsonWebsiteList.getArticleListAdapter() != null)
-                    davidsonWebsiteList.getArticleListAdapter().notifyDataSetChanged();
-
-
-                //websiteAdapter.notifyDataSetChanged();
-            }
-        }.execute("https://davidson.weizmann.ac.il/");
-
-        new  The7EyeDownloader(the7EyeArticles) {
-            @Override
-            protected void onPostExecute(ArrayList<ArticleItem> articleList) {
-                super.onPostExecute(articleList);
-
-                if (the7EyeWebsiteList.getArticleListAdapter() != null)
-                    the7EyeWebsiteList.getArticleListAdapter().notifyDataSetChanged();
-                //websiteAdapter.notifyDataSetChanged();
-            }
-        }.execute("https://www.the7eye.org.il/");
-
-
-        new HaaretzDownloader(haaretzArticles){
-            @Override
-            protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
-                super.onPostExecute(articleItems);
-
-                if (haaretzWebsiteList.getArticleListAdapter() != null)
-                    haaretzWebsiteList.getArticleListAdapter().notifyDataSetChanged();
-                //websiteAdapter.notifyDataSetChanged();
-            }
-        }.execute("https://www.haaretz.co.il/cmlink/1.1470869");
-
-
-        new HaMakomDownloader(hamakomArticles){
-            @Override
-            protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
-                super.onPostExecute(articleItems);
-
-                if (hamakomWebsiteList.getArticleListAdapter() != null)
-                    hamakomWebsiteList.getArticleListAdapter().notifyDataSetChanged();
-                //websiteAdapter.notifyDataSetChanged();
-            }
-        }.execute("https://www.ha-makom.co.il/feed/");
-
-
-
-        new MekomitDownloader(mekomitArticles){
-            @Override
-            protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
-                super.onPostExecute(articleItems);
-
-                if (mekomitWebsiteList.getArticleListAdapter() != null)
-                    mekomitWebsiteList.getArticleListAdapter().notifyDataSetChanged();
-                //websiteAdapter.notifyDataSetChanged();
-            }
-        }.execute("https://www.mekomit.co.il/feed/");
-
-
-
-        new FriendsOfGeorgeDownloader(friendsOfGeorgeArticles){
-            @Override
-            protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
-                super.onPostExecute(articleItems);
-
-                if (friendsOfGeorgeWebsiteList.getArticleListAdapter() != null)
-                    friendsOfGeorgeWebsiteList.getArticleListAdapter().notifyDataSetChanged();
-                //websiteAdapter.notifyDataSetChanged();
-            }
-        }.execute("https://www.hahem.co.il/friendsofgeorge/");
-
-
-        new HayadaanImageDownloader(hayadaanArticles){
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                hayadaanWebsiteList.getArticleListAdapter().notifyDataSetChanged();
-                //websiteAdapter.notifyDataSetChanged();
-
-                ((ImageView)refreshButtonAsImage).clearAnimation();
-            }
-        }.execute();
     }
+    public void requestImages()
+    {
+        if (selectedWebsiteList.contains(hayadaanWebsiteItem))
+            downloadManager.HayadaanImages(hayadaanArticles,hayadaanWebsiteItem);
+    }
+
 }

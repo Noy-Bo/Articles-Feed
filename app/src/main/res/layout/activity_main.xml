@@ -12,62 +12,68 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_toolbar"
+        android:gravity="center_vertical|start"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/toolbarMainColor"
-        android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         tools:ignore="MissingConstraints">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageButton
-                android:id="@+id/refresh_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/refresh_icon"
-                android:onClick="RefreshAllData"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginEnd="20dp"
-                android:gravity="right"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:gravity="center"
+
                 android:text="@string/app_name"
                 android:textColor="@color/articleBackgroundColor"
 
-                android:textSize="20dp"
+                android:textSize="@dimen/_15sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/refresh_button"
                 app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.appcompat.widget.Toolbar>
     <LinearLayout
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="70sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="1dp"
+        android:padding="1sp"
         android:orientation="vertical">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/website_recycler_view"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_to_refresh"
             android:layout_width="match_parent"
-            android:scrollbars="none"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/website_recycler_view"
+                android:layout_width="match_parent"
+                android:scrollbars="none"
+                android:layout_height="match_parent"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 
 
     </LinearLayout>
 
+    <androidx.appcompat.widget.Toolbar
+
+        android:id="@+id/menu_inside_toolbar"
+        android:layout_width="42dp"
+        android:layout_height="57dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.appcompat.widget.Toolbar>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

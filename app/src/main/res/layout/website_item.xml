@@ -2,31 +2,50 @@
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/website_item_card"
     android:layout_width="match_parent"
-    app:cardElevation="0dp"
-    android:layout_height="345dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="60dp"
-
-
+    app:cardElevation="0sp"
+    android:layout_height="345sp"
+    android:layout_marginTop="5sp"
+    android:layout_marginBottom="60sp"
+    android:background="@color/mainBackgroundColor"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <TextView
-        android:background="@color/mainBackgroundColor"
 
+    <androidx.constraintlayout.widget.ConstraintLayout
 
-
-        android:id="@+id/website_name"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:gravity="right"
-        android:text=" Hello World"
+        android:background="@color/mainBackgroundColor"
+        android:layout_height="45sp">
 
-        android:textSize="20dp"
-        android:textColor="@color/black"
-        android:typeface="sans"
+        <ImageButton
+            android:id="@+id/delete_button"
+            android:layout_marginBottom="15sp"
+            android:layout_width="22sp"
+            android:layout_height="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/website_name"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:background="@drawable/garbage_bin_empty_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_marginRight="@dimen/_17sdp"
+            android:id="@+id/website_name"
+            android:layout_width="350dp"
+            android:layout_height="45sp"
+            android:gravity="right"
+            android:text=" Hello World"
+
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:typeface="sans"
 
 
-        />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,7 +57,7 @@
             android:id="@+id/article_recycler_view"
             android:background="@color/mainBackgroundColor"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="300sp"
             android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
