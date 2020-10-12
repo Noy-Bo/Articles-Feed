@@ -37,9 +37,10 @@
             android:layout_width="0dp"
             android:layout_height="45sp"
             android:gravity="right"
-            android:text=" Hello World"
+            android:text="website name "
             app:layout_constraintWidth_percent="0.83"
             android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="20sp"
             android:typeface="sans"
 

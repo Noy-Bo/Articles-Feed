@@ -46,7 +46,7 @@
                     android:adjustViewBounds="true"
                     android:background="@color/articleBackgroundColor"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/newspaper_icon_free"></ImageView>
+                    android:src="@drawable/newspaper_icon_fancy"></ImageView>
             </androidx.cardview.widget.CardView>
 
 

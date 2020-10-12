@@ -50,7 +50,7 @@ public class FriendsOfGeorgeDownloader extends AsyncTask<String,Void, ArrayList<
 
                 //Log.d("george","title: "+linkURL);
 
-                articles.add(new ArticleItem(title,body,date,"https://i.ibb.co/4p6B1NM/rsz-newspaper-976110-640.png",linkURL)); // no image :(
+                articles.add(new ArticleItem(title,body,date,"https://i.ibb.co/zsTHSD3/newspaper-icon-fancy.png",linkURL)); // no image :(
             }
 
 

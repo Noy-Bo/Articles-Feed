@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 for (WebsiteItem webItem : selectedWebsiteList) {
                     if (!item.toString().equals("parent_menu")) {
                         if (webItem.getWebsiteName().equals(item.toString())) {
-                            Toast.makeText(MainActivity.this, "האתר שבחרת כבר נמצא ברשימה", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "האתר שבחרת כבר קיים בתצוגה", Toast.LENGTH_SHORT).show();
                             selected = true;
                         }
                     }

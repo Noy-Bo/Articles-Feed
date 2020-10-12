@@ -79,7 +79,7 @@ public class HayadaanDownloader extends AsyncTask<String,Void, ArrayList<Article
 
                 body = e.select("description").text();
                 title = e.select("title").text();
-                articles.add(new ArticleItem(title,body,date,"https://i.ibb.co/4p6B1NM/rsz-newspaper-976110-640.png",linkUrl));
+                articles.add(new ArticleItem(title,body,date,"https://i.ibb.co/zsTHSD3/newspaper-icon-fancy.png",linkUrl));
             }
 
         }

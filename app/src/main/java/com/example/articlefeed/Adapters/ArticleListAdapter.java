@@ -116,16 +116,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter <ArticleListAdapter
                 websiteIntent.putExtra("url",articleList.get(holder.getAdapterPosition()).getArticleLinkURL());
                 startActivity(context,websiteIntent,null);
 
-//                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.haaretz.co.il/misc/smartphone-article/.premium-1.9219093"));
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.setPackage("com.android.chrome");
-//                try {
-//                    context.startActivity(intent);
-//                } catch (ActivityNotFoundException ex) {
-//                    // Chrome browser presumably not installed so allow user to choose instead
-//                    intent.setPackage(null);
-//                    context.startActivity(intent);
-//                }
             }
         });
         holder.articleTitle.setText(currentItem.getArticleTitle());
@@ -134,7 +124,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter <ArticleListAdapter
         if (currentItem.getArticlePictureURL() != null && currentItem.getArticlePictureURL().startsWith("https://"))
             Picasso.get().load(currentItem.getArticlePictureURL()).into(holder.articlePicture);
         else
-            Picasso.get().load("https://i.ibb.co/4p6B1NM/rsz-newspaper-976110-640.png").into(holder.articlePicture);
+            Picasso.get().load("https://i.ibb.co/zsTHSD3/newspaper-icon-fancy.png").into(holder.articlePicture);
         holder.articleReleaseDate.setText(currentItem.getArticleReleaseDate());
 
 
