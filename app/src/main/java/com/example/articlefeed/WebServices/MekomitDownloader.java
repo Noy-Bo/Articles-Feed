@@ -20,6 +20,7 @@ public class MekomitDownloader extends AsyncTask<String,Void, ArrayList<ArticleI
 
     public MekomitDownloader(ArrayList<ArticleItem> articles) {
         this.articles = articles;
+        this.articles.clear();
     }
 
 

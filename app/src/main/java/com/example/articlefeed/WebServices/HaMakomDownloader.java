@@ -20,6 +20,7 @@ public class HaMakomDownloader  extends AsyncTask<String,Void, ArrayList<Article
 
     public HaMakomDownloader(ArrayList<ArticleItem> articles) {
         this.articles = articles;
+        this.articles.clear();
     }
 
 

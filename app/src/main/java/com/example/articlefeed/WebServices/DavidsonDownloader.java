@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class DavidsonDownloader extends AsyncTask<String,Void,ArrayList<ArticleItem>> {
     public DavidsonDownloader(ArrayList<ArticleItem> articles) {
         this.articles = articles;
+        this.articles.clear();
     }
 
     private ArrayList<ArticleItem> articles;

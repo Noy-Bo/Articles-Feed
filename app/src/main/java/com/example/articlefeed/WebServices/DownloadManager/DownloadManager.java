@@ -15,8 +15,15 @@ import java.util.ArrayList;
 
 public class DownloadManager {
     private boolean isLastItem;
+    public static boolean imagesIsLast = false;
+    public static boolean requestImages = false;
     public void Hayadaan(ArrayList<ArticleItem> hayadaanArticles, WebsiteItem hayadaanWebsiteItem,boolean isLastItem, OnDataDownloadComplete handler)
     {
+
+        hayadaanArticles.clear();
+        if (hayadaanWebsiteItem.getArticleListAdapter() != null) {
+            hayadaanWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
+        }
         new  HayadaanDownloader(hayadaanArticles)  {
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleList) {
@@ -25,7 +32,7 @@ public class DownloadManager {
                 if (hayadaanWebsiteItem.getArticleListAdapter() != null)
                     hayadaanWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
 
-                if (isLastItem == true) {
+                if (isLastItem == true)  {
                     handler.DataDownloadCompleted();
                 }
 
@@ -35,7 +42,7 @@ public class DownloadManager {
         }.execute("https://www.hayadan.org.il/feed/");
     }
 
-    public void HayadaanImages(ArrayList<ArticleItem> hayadaanArticles, WebsiteItem hayadaanWebsiteItem)
+    public void HayadaanImages(ArrayList<ArticleItem> hayadaanArticles, WebsiteItem hayadaanWebsiteItem,boolean isLastItem, OnDataDownloadComplete handler)
     {
         new HayadaanImageDownloader(hayadaanArticles){
             @Override
@@ -43,18 +50,19 @@ public class DownloadManager {
                 super.onPostExecute(aVoid);
 
                 hayadaanWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
+                handler.DataDownloadCompleted();
 
-
-                //websiteAdapter.notifyDataSetChanged();
-
-                //((ImageView) MainActivity.refreshButtonAsImage).clearAnimation(); // last job at refresh.
-                //MainActivity.refreshButtonAsImage.setEnabled(true);
             }
         }.execute();
     }
 
     public void Davidson(ArrayList<ArticleItem> davidsonArticles, WebsiteItem davidsonWebsiteItem,boolean isLastItem, OnDataDownloadComplete handler)
     {
+        davidsonArticles.clear();
+        if (davidsonWebsiteItem.getArticleListAdapter() != null) {
+            davidsonWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
+        }
+
         new  DavidsonDownloader(davidsonArticles)  {
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleList) {
@@ -62,7 +70,7 @@ public class DownloadManager {
                 if (davidsonWebsiteItem.getArticleListAdapter() != null)
                     davidsonWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
 
-                if (isLastItem == true) {
+                if (isLastItem == true){
                     handler.DataDownloadCompleted();
                 }
 
@@ -74,15 +82,19 @@ public class DownloadManager {
 
     public void The7Eye(ArrayList<ArticleItem> the7EyeArticles, WebsiteItem the7EyeWebsiteItem,boolean isLastItem, OnDataDownloadComplete handler)
     {
+        the7EyeArticles.clear();
+        if (the7EyeWebsiteItem.getArticleListAdapter() != null) {
+            the7EyeWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
+        }
+
         new  The7EyeDownloader(the7EyeArticles) {
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleList) {
                 super.onPostExecute(articleList);
-
                 if (the7EyeWebsiteItem.getArticleListAdapter() != null)
                     the7EyeWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
 
-                if (isLastItem == true) {
+                if (isLastItem == true)  {
                     handler.DataDownloadCompleted();
                 }
 
@@ -93,6 +105,11 @@ public class DownloadManager {
 
     public void Haaretz(ArrayList<ArticleItem> haaretzArticles, WebsiteItem haaretzWebsiteItem,boolean isLastItem, OnDataDownloadComplete handler)
     {
+        haaretzArticles.clear();
+        if (haaretzWebsiteItem.getArticleListAdapter() != null) {
+            haaretzWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
+        }
+
         new HaaretzDownloader(haaretzArticles){
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
@@ -111,6 +128,11 @@ public class DownloadManager {
 
     public void HaMakom(ArrayList<ArticleItem> hamakomArticles, WebsiteItem hamakomWebsiteItem,boolean isLastItem, OnDataDownloadComplete handler)
     {
+        hamakomArticles.clear();
+        if (hamakomWebsiteItem.getArticleListAdapter() != null) {
+            hamakomWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
+        }
+
         new HaMakomDownloader(hamakomArticles){
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
@@ -119,7 +141,7 @@ public class DownloadManager {
                 if (hamakomWebsiteItem.getArticleListAdapter() != null)
                     hamakomWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
 
-                if (isLastItem == true) {
+                if (isLastItem == true){
                     handler.DataDownloadCompleted();
                 }
 
@@ -130,6 +152,11 @@ public class DownloadManager {
 
     public void Mekomit(ArrayList<ArticleItem> mekomitArticles, WebsiteItem mekomitWebsiteItem,boolean isLastItem, OnDataDownloadComplete handler)
     {
+        mekomitArticles.clear();
+        if (mekomitWebsiteItem.getArticleListAdapter() != null) {
+            mekomitWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
+        }
+
         new MekomitDownloader(mekomitArticles){
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
@@ -150,6 +177,11 @@ public class DownloadManager {
 
     public void FriendsOfGeorge(ArrayList<ArticleItem> friendsOfGeorgeArticles, WebsiteItem friendsOfGeorgeWebsiteItem,boolean isLastItem, OnDataDownloadComplete handler)
     {
+        friendsOfGeorgeArticles.clear();
+        if (friendsOfGeorgeWebsiteItem.getArticleListAdapter() != null) {
+            friendsOfGeorgeWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
+        }
+
         new FriendsOfGeorgeDownloader(friendsOfGeorgeArticles){
             @Override
             protected void onPostExecute(ArrayList<ArticleItem> articleItems) {
@@ -159,7 +191,7 @@ public class DownloadManager {
                     friendsOfGeorgeWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
 
 
-                if (isLastItem == true) {
+                if (isLastItem == true)  {
                     handler.DataDownloadCompleted();
                 }
 
@@ -171,24 +203,25 @@ public class DownloadManager {
     {
         isLastItem = false;
         for (int i = 0; i < selectedWebsites.size(); i++) {
+                if (i == selectedWebsites.size() - 1) { // last item - signal to activate the handler.
+                    selectDownloaderFromName(selectedWebsites.get(i), handler, true);
+                } else {
 
-            if ( i == selectedWebsites.size() - 1) { // last item - signal to activate the handler.
-                selectDownloaderFromName(selectedWebsites.get(i),handler,true);
-            }
-            else{
+                    selectDownloaderFromName(selectedWebsites.get(i), handler, false);
+                }
 
-            selectDownloaderFromName(selectedWebsites.get(i),handler,false);
-            }
         }
 
     }
 
     public void selectDownloaderFromName(WebsiteItem item, OnDataDownloadComplete handler, Boolean isLastItem)
     {
+       imagesIsLast = false;
         switch(item.getWebsiteName())
         {
             case "הידען":
                 Hayadaan(item.getArticleList(),item,isLastItem,handler);
+                requestImages = true;
                 break;
 
             case "מכון דוידסון":

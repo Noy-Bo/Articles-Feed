@@ -12,6 +12,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -66,6 +67,21 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     initializeArrays(); // has to be first
 
+
+    // ====================================================================
+    // ------------------------- Website Adapters -------------------------
+    // ====================================================================
+
+
+    websiteRecyclerView = findViewById(R.id.website_recycler_view);
+    websiteRecyclerView.addItemDecoration(new DividerItemDecoration(this,0));
+    websiteRecyclerView.setHasFixedSize(true);
+    websiteLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+    websiteAdapter = new WebsiteListAdapter(selectedWebsiteList,this);
+
+    websiteRecyclerView.setLayoutManager(websiteLayoutManager);
+    websiteRecyclerView.setAdapter(websiteAdapter);
+
     // ====================================================================
     // ------------------------ Toolbar Add Menu --------------------------
     // ====================================================================
@@ -89,12 +105,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     {
                         if (webItem.getWebsiteName().equals(item.toString())){
                             selectedWebsiteList.add(0,webItem);
+                            swipeRefreshLayout.setRefreshing(true);
                             downloadManager.selectDownloaderFromName(webItem, new OnDataDownloadComplete() {
                                 @Override
                                 public void DataDownloadCompleted() {
-                                    requestImages();
+                                    if (requestImages() == true) {
+                                         requestImagesJob();
+                                    }
+                                    else
+                                    {
+                                        swipeRefreshLayout.setRefreshing(false);
+                                    }                                               
                                 }
-                            },false);
+                            },true);
                             websiteAdapter.notifyDataSetChanged();
                         }
                     }
@@ -106,19 +129,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
 
 
-        // ====================================================================
-        // ------------------------- Website Adapters -------------------------
-        // ====================================================================
 
-
-        websiteRecyclerView = findViewById(R.id.website_recycler_view);
-        websiteRecyclerView.addItemDecoration(new DividerItemDecoration(this,0));
-        websiteRecyclerView.setHasFixedSize(true);
-        websiteLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        websiteAdapter = new WebsiteListAdapter(selectedWebsiteList,this);
-
-        websiteRecyclerView.setLayoutManager(websiteLayoutManager);
-        websiteRecyclerView.setAdapter(websiteAdapter);
 
 
         // ====================================================================
@@ -240,16 +251,37 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         downloadManager.downloadSelectedData(selectedWebsiteList, new OnDataDownloadComplete() {
             @Override
             public void DataDownloadCompleted() {
-                requestImages();
-                swipeRefreshLayout.setRefreshing(false);
+                if (requestImages() == true) {
+                     requestImagesJob();
+                }
+                else
+                {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
 
     }
-    public void requestImages()
+    public void requestImagesJob()
     {
+        Toast toast = Toast.makeText(this , "הכתבות מוכנות! מוריד תמונות..", Toast.LENGTH_SHORT);
+        toast.show();
         if (selectedWebsiteList.contains(hayadaanWebsiteItem))
-            downloadManager.HayadaanImages(hayadaanArticles,hayadaanWebsiteItem);
+        {
+                downloadManager.HayadaanImages(hayadaanArticles, hayadaanWebsiteItem, DownloadManager.imagesIsLast, new OnDataDownloadComplete() {
+                    @Override
+                    public void DataDownloadCompleted() {
+                      swipeRefreshLayout.setRefreshing(false);
+                      DownloadManager.requestImages = false;
+                    }
+                });
+        }
+    }
+    public boolean requestImages()
+    {
+           if (selectedWebsiteList.contains(hayadaanWebsiteItem))
+               return true;
+           return false;
     }
 
 }

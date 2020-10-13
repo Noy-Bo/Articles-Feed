@@ -19,6 +19,7 @@ public class FriendsOfGeorgeDownloader extends AsyncTask<String,Void, ArrayList<
 
     public FriendsOfGeorgeDownloader(ArrayList<ArticleItem> articles) {
         this.articles = articles;
+        this.articles.clear();
     }
 
 
@@ -48,7 +49,6 @@ public class FriendsOfGeorgeDownloader extends AsyncTask<String,Void, ArrayList<
                 linkURL = e.select(" h1 > a").attr("href");
 
 
-                //Log.d("george","title: "+linkURL);
 
                 articles.add(new ArticleItem(title,body,date,"https://i.ibb.co/zsTHSD3/newspaper-icon-fancy.png",linkURL)); // no image :(
             }

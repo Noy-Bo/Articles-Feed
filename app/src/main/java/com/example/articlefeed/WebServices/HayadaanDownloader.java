@@ -19,6 +19,7 @@ import java.util.Date;
 public class HayadaanDownloader extends AsyncTask<String,Void, ArrayList<ArticleItem>> {
     public HayadaanDownloader(ArrayList<ArticleItem> articles) {
         this.articles = articles;
+        this.articles.clear();
     }
 
     private ArrayList<ArticleItem> articles;

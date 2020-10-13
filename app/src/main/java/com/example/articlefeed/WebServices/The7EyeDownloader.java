@@ -21,7 +21,7 @@ public class The7EyeDownloader  extends AsyncTask<String,Void,ArrayList<ArticleI
     public The7EyeDownloader(ArrayList<ArticleItem> articles) {
         this.articles = articles;
     }
-
+    //private ArrayList<ArticleItem> refreshedArticles = new ArrayList<>();
 
 
     @Override
@@ -83,6 +83,7 @@ public class The7EyeDownloader  extends AsyncTask<String,Void,ArrayList<ArticleI
 
                 articles.add(new ArticleItem(title,body,date,imageURL,linkURL));
             }
+
 
             return articles;
 

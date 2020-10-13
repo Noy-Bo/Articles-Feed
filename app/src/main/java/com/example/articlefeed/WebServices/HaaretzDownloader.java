@@ -21,6 +21,7 @@ public class HaaretzDownloader extends AsyncTask<String,Void, ArrayList<ArticleI
 
     public HaaretzDownloader(ArrayList<ArticleItem> articles) {
         this.articles = articles;
+        this.articles.clear();
     }
 
 
@@ -63,8 +64,6 @@ public class HaaretzDownloader extends AsyncTask<String,Void, ArrayList<ArticleI
                 imageURL = e.select("enclosure").attr("url");
 
 
-
-                //articles.add(new ArticleItem(title,body,date,imageURL,linkUrl));
                 if (body.length()> 5) { // getting rid of empty descriptions(body)
                     articles.add(0, new ArticleItem(title, body, date, imageURL, linkUrl));
                     if (--numOfArticlesToFetch == 0)
