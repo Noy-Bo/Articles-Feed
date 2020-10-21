@@ -45,13 +45,13 @@ public class HaaretzDownloader extends AsyncTask<String,Void, ArrayList<ArticleI
 
             Elements articleElements = doc.select("item"); // getting item elements.
 
-            int numOfArticlesToFetch = 20;
+            int numOfArticlesToFetch = 40;
 
             for (Element e : articleElements) {
 
                 title = e.select("title").text();
                 body = e.select("description").text();
-
+                String author = e.select("author").text();
                 String rawDate = e.select("pubDate").text();
                 date = "";
                 int firstSpace = rawDate.indexOf(" ",0);
@@ -64,7 +64,7 @@ public class HaaretzDownloader extends AsyncTask<String,Void, ArrayList<ArticleI
                 imageURL = e.select("enclosure").attr("url");
 
 
-                if (body.length()> 5) { // getting rid of empty descriptions(body)
+                if ((body.length()> 5) && (!author.contains("ספורט") && (!linkUrl.contains("sport")))){ // getting rid of empty descriptions(body)
                     articles.add(0, new ArticleItem(title, body, date, imageURL, linkUrl));
                     if (--numOfArticlesToFetch == 0)
                         break;

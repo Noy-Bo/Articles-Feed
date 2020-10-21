@@ -111,7 +111,12 @@ public class ArticleListAdapter extends RecyclerView.Adapter <ArticleListAdapter
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (articleList.get(holder.getAdapterPosition()).getArticleLinkURL().contains("mekomit"))
+                {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(articleList.get(holder.getAdapterPosition()).getArticleLinkURL()));
+                    startActivity(context,browserIntent,null);
+                    return;
+                }
                 Intent websiteIntent = new Intent(context,ArticleWebView.class);
                 websiteIntent.putExtra("url",articleList.get(holder.getAdapterPosition()).getArticleLinkURL());
                 startActivity(context,websiteIntent,null);
