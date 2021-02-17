@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private ArrayList<ArticleItem> davidsonArticles;
     private ArrayList<ArticleItem> hayadaanArticles;
     private ArrayList<ArticleItem> friendsOfGeorgeArticles;
+    private ArrayList<ArticleItem> urbanologiaArticles;
 
     private WebsiteItem hayadaanWebsiteItem;
     private WebsiteItem davidsonWebsiteItem;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private WebsiteItem hamakomWebsiteItem;
     private WebsiteItem mekomitWebsiteItem;
     private WebsiteItem friendsOfGeorgeWebsiteItem;
+    private WebsiteItem urbanologiaWebsiteItem;
 
     private Toolbar mainToolbar;
 
@@ -145,6 +147,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         // SwipeRefreshLayout
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_to_refresh);
+        swipeRefreshLayout.setSlingshotDistance(400);
+        swipeRefreshLayout.setDistanceToTriggerSync(450);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(
                 android.R.color.holo_orange_dark,
@@ -163,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         davidsonArticles = new ArrayList<>();
         hayadaanArticles = new ArrayList<>();
         friendsOfGeorgeArticles = new ArrayList<>();
+        urbanologiaArticles = new ArrayList<>();
 
         websiteList = new ArrayList<>();
         selectedWebsiteList = new ArrayList<>();
@@ -182,6 +187,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         hamakomWebsiteItem = new WebsiteItem("המקום הכי חם בגיהנום",hamakomArticles);
         websiteList.add(hamakomWebsiteItem);
 
+        urbanologiaWebsiteItem = new WebsiteItem("אורבנולוגיה",urbanologiaArticles);
+        websiteList.add(urbanologiaWebsiteItem);
+
         mekomitWebsiteItem = new WebsiteItem("שיחה מקומית",mekomitArticles);
         websiteList.add(mekomitWebsiteItem);
 
@@ -191,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     public void CreateAndDisplayInitialDialogAlert()
     {
-        String[] stringWebsiteList = {"הידען","מכון דוידסון","העין השביעית","הארץ","המקום הכי חם בגיהנום","שיחה מקומית","החברים של ג'ורג'"};
+        String[] stringWebsiteList = {"הידען","מכון דוידסון","העין השביעית","הארץ","המקום הכי חם בגיהנום","אורבנולוגיה","שיחה מקומית","החברים של ג'ורג'"};
 
         boolean[] checkedItems;
         ArrayList<Integer> itemsIntegers = new ArrayList<>();

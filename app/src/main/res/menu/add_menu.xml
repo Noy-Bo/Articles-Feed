@@ -26,6 +26,9 @@
             <item android:id="@+id/hamakom_menu"
                 android:title="המקום הכי חם בגיהנום" />
 
+            <item android:id="@+id/urbanologia_menu"
+                android:title="אורבנולוגיה" />
+
             <item android:id="@+id/mekomit_menu"
                 android:title="שיחה מקומית" />
 

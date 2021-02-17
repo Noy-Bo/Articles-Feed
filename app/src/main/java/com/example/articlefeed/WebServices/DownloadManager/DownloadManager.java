@@ -10,6 +10,7 @@ import com.example.articlefeed.WebServices.HayadaanDownloader;
 import com.example.articlefeed.WebServices.HayadaanImageDownloader;
 import com.example.articlefeed.WebServices.MekomitDownloader;
 import com.example.articlefeed.WebServices.The7EyeDownloader;
+import com.example.articlefeed.WebServices.UrbanologiaDownloader;
 
 import java.util.ArrayList;
 
@@ -55,7 +56,29 @@ public class DownloadManager {
             }
         }.execute();
     }
+    public void Urbanologia(ArrayList<ArticleItem> urbanologiaArticles, WebsiteItem urbanologiaWebsiteItem,boolean isLastItem, OnDataDownloadComplete handler)
+    {
+        urbanologiaArticles.clear();
+        if (urbanologiaWebsiteItem.getArticleListAdapter() != null) {
+            urbanologiaWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
+        }
 
+        new  UrbanologiaDownloader(urbanologiaArticles)  {
+            @Override
+            protected void onPostExecute(ArrayList<ArticleItem> articleList) {
+                super.onPostExecute(articleList);
+                if (urbanologiaWebsiteItem.getArticleListAdapter() != null)
+                    urbanologiaWebsiteItem.getArticleListAdapter().notifyDataSetChanged();
+
+                if (isLastItem == true){
+                    handler.DataDownloadCompleted();
+                }
+
+                //pd.dismiss();
+                //websiteAdapter.notifyDataSetChanged();
+            }
+        }.execute("https://urbanologia.tau.ac.il/");
+    }
     public void Davidson(ArrayList<ArticleItem> davidsonArticles, WebsiteItem davidsonWebsiteItem,boolean isLastItem, OnDataDownloadComplete handler)
     {
         davidsonArticles.clear();
@@ -247,6 +270,11 @@ public class DownloadManager {
             case "החברים של ג'ורג'":
                 FriendsOfGeorge(item.getArticleList(),item,isLastItem,handler);
                 break;
+
+            case "אורבנולוגיה":
+                Urbanologia(item.getArticleList(),item,isLastItem,handler);
+                break;
+
 
         }
 
