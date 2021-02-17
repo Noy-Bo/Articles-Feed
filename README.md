@@ -1,7 +1,7 @@
 # News & Article feed - כתבוט
 latest feed of my favorite news&article websites.
 
-Includes: AsynchTasks \ Data parsing (XML & HTML) \ Nested RecyclerView \ Various web-services.
+Includes: Async-Tasks \ Data parsing (XML & HTML) \ Nested RecyclerView \ Various web-services.
 
 
 
