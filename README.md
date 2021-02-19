@@ -1,7 +1,7 @@
 # News & Articles feed - כתבוט
 Android Application - latest feed of my favorite news and articles websites.
 
-Includes: Async-Tasks \ parsing XML & HTML \ Nested Recycler View \  Web-Services.
+Using: Async-Tasks, parsing XML & HTML, Nested Recycler View, Web-Services and more.
 
 
 
